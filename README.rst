@@ -1,8 +1,6 @@
 whatami: unobtrusive object self-identification for python
 ==========================================================
 
-|Pypi Version| |Build Status| |Coverage Status| |Codacy Status|
-
 About
 -----
 
@@ -112,14 +110,6 @@ happens also if the default id strings can be generated differently, even if no 
 actually changes.
 
 
-.. |Build Status| image:: https://travis-ci.org/sdvillal/whatami.svg?branch=master
-   :target: https://travis-ci.org/sdvillal/whatami
-.. |Coverage Status| image:: http://codecov.io/github/sdvillal/whatami/coverage.svg?branch=master
-   :target: http://codecov.io/github/sdvillal/whatami?branch=master
-.. |Pypi Version| image:: https://badge.fury.io/py/whatami.svg
-   :target: http://badge.fury.io/py/whatami
 .. _semantic versioning: http://semver.org/
 .. _scikit-learn: http://scikit-learn.org
 .. _pyopy: https://github.com/sdvillal/pyopy
-.. |Codacy Status| image:: https://api.codacy.com/project/badge/Grade/163584371aeb432497b6c9525a21cdae
-   :target: https://www.codacy.com/app/sdvillal/whatami?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=sdvillal/whatami&amp;utm_campaign=Badge_Grade
