@@ -1,0 +1,36 @@
+[project]
+name = "whatami"
+version = "5.1.16dev0"
+description = "Easily provide python objects with self-identification"
+readme = "README.rst"
+license.file = "LICENSE.txt"
+authors = [{ name = "Santi Villalba", email = "sdvillal@gmail.com" }]
+maintainers = [{ name = "Andrew Straw", email = "strawman@astraw.com" }]
+
+urls.homepage = "https://github.com/strawlab/whatami"
+
+classifiers = [
+    'Intended Audience :: Science/Research',
+    'Intended Audience :: Developers',
+    'Topic :: Software Development',
+    'Topic :: Scientific/Engineering',
+    'License :: OSI Approved',
+    'Programming Language :: Python :: 2',
+    'Programming Language :: Python :: 2.7',
+    'Programming Language :: Python :: 3',
+    'Programming Language :: Python :: 3.5',
+    'Programming Language :: Python :: 3.6',
+    'Programming Language :: Python :: 3.7',
+]
+
+dependencies = [
+    "arpeggio>=1.5",
+    "future>=0.15.2",
+    "toolz",
+]
+
+[project.optional-dependencies]
+numpy = ["numpy"]
+pandas = ["pandas"]
+sklearn = ["scikit-learn"]
+docs = ["Sphinx"]
