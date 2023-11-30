@@ -4,7 +4,7 @@
 # Authors: Santi Villalba <sdvillal@gmail.com>
 # Licence: BSD 3 clause
 
-from __future__ import print_function
+
 # noinspection PyProtectedMember
 from future.utils import string_types
 
@@ -99,7 +99,7 @@ def id2dict(whatid):
     return {'whatami_name': what.name,
             'whatami_out_name': what.out_name,
             'whatami_conf': {k: (v if not isinstance(v, What) else v.to_dict())
-                             for k, v in what.conf.items()}}
+                             for k, v in list(what.conf.items())}}
 
 
 def obj2what(obj,
@@ -194,7 +194,7 @@ def sort_whatids(whatids, *keys):
     >>> [what['lag'] for what in map(id2what, ids_sorted)]
     [-2, -1, 0, 1, 2]
     """
-    whats = map(id2what, whatids)  # if this is bottleneck, allow to pass what themselves
+    whats = list(map(id2what, whatids))  # if this is bottleneck, allow to pass what themselves
     values = [whatvalues(what, keys) for what in whats]
     # noinspection PyTypeChecker
     return tuple(zip(*[(whatid, value) for value, whatid in sorted(zip(values, whatids), key=itemgetter(0))]))
@@ -363,7 +363,7 @@ def whatid2columns(df, whatid_col, columns=None, prefix='', postfix='', inplace=
     whats = {whatid: id2what(whatid) for whatid in df[whatid_col].unique()}
 
     if columns is None:
-        columns = sorted(set(chain.from_iterable(what.keys() for what in whats.values())), key=_key2colname)
+        columns = sorted(set(chain.from_iterable(list(what.keys()) for what in list(whats.values()))), key=_key2colname)
 
     prefix = '' if prefix is None else prefix
     postfix = '' if postfix is None else postfix
@@ -424,7 +424,7 @@ class FunctionLike(object):
         return self.__class__.__name__
 
     def what(self):
-        cd = {k: v for k, v in config_dict_for_object(self).items()
+        cd = {k: v for k, v in list(config_dict_for_object(self).items())
               if not k.startswith('_') and not k.endswith('_')}
         # noinspection PyTypeChecker
         return What(self.__name__, cd)

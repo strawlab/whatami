@@ -8,8 +8,8 @@ PY26 = sys.version_info[:2] == (2, 6)
 PY27 = sys.version_info[:2] == (2, 7)
 
 try:
-    _basestring = basestring
-    _bytes_or_unicode = (str, unicode)
+    _basestring = str
+    _bytes_or_unicode = (str, str)
 except NameError:
     _basestring = str
     _bytes_or_unicode = (bytes, str)

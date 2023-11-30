@@ -4,7 +4,7 @@
 # Authors: Santi Villalba <sdvillal@gmail.com>
 # Licence: BSD 3 clause
 
-from __future__ import absolute_import, print_function
+
 
 from copy import copy
 
@@ -561,7 +561,7 @@ class Recorder(with_metaclass(_RecorderMeta)):
             if warn and len(ids) != len(params):  # pragma: no cover
                 print('WARNING: number of names is different to the number of parameters (%d != %d)' %
                       (len(ids), len(params)))
-            return _DefaultDict(None, **dict(zip(ids, params)))
+            return _DefaultDict(None, **dict(list(zip(ids, params))))
         return _DefaultDict(default=params)
 
     def add(self, ids, unbox_iterables=True,
@@ -624,7 +624,7 @@ class Recorder(with_metaclass(_RecorderMeta)):
             ids = list(map(self.id_extractor, ids))
         # Expand iterables to field assignments
         config_dict = {param: self._params2dict(ids, value, unbox_iterables)
-                       for param, value in columns.items()}
+                       for param, value in list(columns.items())}
         # Add each id in turn...
         records = OrderedDict()
         for an_id in ids:
@@ -634,14 +634,14 @@ class Recorder(with_metaclass(_RecorderMeta)):
             if an_id in records:
                 raise Exception('"%s" is duplicated' % an_id)
             # Create record
-            record = {param: values[an_id] for param, values in config_dict.items()
+            record = {param: values[an_id] for param, values in list(config_dict.items())
                       if an_id in values}
             # Add id column to record
             if self.id_column_name in record:
                 raise Exception('ID column would replace %r' % self.id_column_name)
             record[self.id_column_name] = an_id
             # Add default values
-            for column, default in self._column_defaults.items():
+            for column, default in list(self._column_defaults.items()):
                 if column not in record:
                     record[column] = default
             # Postprocess record (validation, synthetic columns and more)
@@ -680,7 +680,7 @@ class Recorder(with_metaclass(_RecorderMeta)):
 
     def unique(self, column):
         """Returns a set with the unique values of a column in the registry."""
-        return {record[column] for record in self._registry.values() if column in record}
+        return {record[column] for record in list(self._registry.values()) if column in record}
 
     # --- Other utils
 
@@ -689,4 +689,4 @@ class Recorder(with_metaclass(_RecorderMeta)):
         Returns a pandas dataframe with records in rows and as many columns as different attributes.
         It is sorted by insertion order.
         """
-        return pd.DataFrame.from_dict(self._registry, orient='index').loc[self._registry.keys()]
+        return pd.DataFrame.from_dict(self._registry, orient='index').loc[list(self._registry.keys())]

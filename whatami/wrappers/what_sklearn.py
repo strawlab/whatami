@@ -44,7 +44,7 @@ See also rendered docs:
 # Authors: Santi Villalba <sdvillal@gmail.com>
 # Licence: BSD 3 clause
 
-from __future__ import print_function, absolute_import
+
 
 import inspect
 import warnings
@@ -588,7 +588,7 @@ def _declare_id_nonid_attributes():
 
 
 # Make the invese map: short_name -> long_name
-_SKLShort2Long = dict((v.short_name, k) for k, v in _SKLRegistry.items())
+_SKLShort2Long = dict((v.short_name, k) for k, v in list(_SKLRegistry.items()))
 
 
 # ----- Monkey-patching for whatability
@@ -675,7 +675,7 @@ def sklearn_parameters_report():
     # Whatamise the library
     whatamize_sklearn()
     whatamized = {}
-    for name, meta in _SKLRegistry.items():
+    for name, meta in list(_SKLRegistry.items()):
         args, varargs, varkw, defaults, required = init_argspec(meta.object)
         whatamized[fqn(meta.object)] = args, varargs, varkw, defaults, required, name, meta
 

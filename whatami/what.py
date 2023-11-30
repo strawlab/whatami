@@ -65,7 +65,7 @@ buy(currency='euro',price=4294967296)
 # Authors: Santi Villalba <sdvillal@gmail.com>
 # Licence: BSD 3 clause
 
-from __future__ import print_function, absolute_import
+
 import hashlib
 import inspect
 from copy import deepcopy
@@ -171,7 +171,7 @@ class What(object):
                 if non_ids_too:
                     kvs = sorted(what.conf.items())
                 else:
-                    kvs = sorted(item for item in what.conf.items() if item[0] not in what.non_id_keys)
+                    kvs = sorted(item for item in list(what.conf.items()) if item[0] not in what.non_id_keys)
             elif isinstance(what, (list, tuple)) and collections_too:
                 kvs = enumerate(what)
             elif isinstance(what, dict) and collections_too:
@@ -347,7 +347,7 @@ def whatareyou(obj,
         if type(obj) in (list, tuple, set, dict):  # N.B. do not use isinstance here
             cd['seq'] = obj
         elif isinstance(obj, dict):
-            cd['seq'] = {k: v for k, v in obj.items()}
+            cd['seq'] = {k: v for k, v in list(obj.items())}
         elif isinstance(obj, tuple):
             cd['seq'] = tuple(obj)
         elif isinstance(obj, list):

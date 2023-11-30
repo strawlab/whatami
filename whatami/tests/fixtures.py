@@ -96,7 +96,7 @@ def pandas_skip(test):  # pragma: no cover
     return test
 
 
-@pytest.fixture(params=map(pandas_skip, ['df1', 'df2', 'df3', 'df4', 's1', 's2']),
+@pytest.fixture(params=list(map(pandas_skip, ['df1', 'df2', 'df3', 'df4', 's1', 's2'])),
                 ids=['df1', 'df2', 'df3', 'df4', 's1', 's2'])
 def df(request):
     """Hardcodes hashes, so we can detect hashing changes in joblib and pandas serialisation across versions."""

@@ -3,7 +3,7 @@
 # Authors: Santi Villalba <sdvillal@gmail.com>
 # Licence: BSD 3 clause
 
-from __future__ import absolute_import
+
 import hashlib
 
 from future.utils import PY3
@@ -130,13 +130,13 @@ def test_string_escape():
 
 def test_what_keys():
     what = What('tom', conf={'a': 3, 'b': 'z', 'c': 3.14}, non_id_keys=['b'])
-    assert what.keys() == ['a', 'c']
+    assert list(what.keys()) == ['a', 'c']
     assert what.keys(non_ids_too=True) == ['a', 'b', 'c']
 
 
 def test_what_values():
     what = What('tom', conf={'a': 3, 'b': 'z', 'c': 3.14}, non_id_keys=['b'])
-    assert what.values() == [3, 3.14]
+    assert list(what.values()) == [3, 3.14]
     assert what.values(non_ids_too=True) == [3, 'z', 3.14]
 
 

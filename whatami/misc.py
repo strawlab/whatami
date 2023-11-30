@@ -4,7 +4,7 @@
 # Authors: Santi Villalba <sdvillal@gmail.com>
 # Licence: BSD 3 clause
 
-from __future__ import absolute_import
+
 # noinspection PyProtectedMember
 from future.utils import PY3, string_types
 
@@ -304,8 +304,8 @@ def callable2call(c, closure_extractor=lambda c: c):
             args = [] if not args else args
             args_set = set(args)
             # Check that everything is fine...
-            keywords = dict(chain(zip(args[-len(defaults):], defaults), keywords.items()))  # N.B. order matters
-            pos2keyword = dict(zip(args[:len(positional)], positional))  # N.B. order matters
+            keywords = dict(chain(list(zip(args[-len(defaults):], defaults)), list(keywords.items())))  # N.B. order matters
+            pos2keyword = dict(list(zip(args[:len(positional)], positional)))  # N.B. order matters
             keywords_set = set(keywords.keys())
             if len(keywords_set - args_set) > 0:
                 raise ValueError('Some partial %r keywords are not parameters of the function %s' %
@@ -323,7 +323,7 @@ def callable2call(c, closure_extractor=lambda c: c):
             return callable2call_recursive(
                 c.func,
                 positional=positional + list(c.args),                  # N.B. order matters
-                keywords=dict(chain(pkeywords.items(), keywords.items())))   # N.B. order matters
+                keywords=dict(chain(list(pkeywords.items()), list(keywords.items()))))   # N.B. order matters
         if hasattr(c, '__call__'):
             # No way to get the argspec from anything arriving here (builtins and the like...)
             return c.__name__, keywords
@@ -479,7 +479,7 @@ def trim_dict(cd, exclude_prefix='_', exclude_postfix='_', excludes=('what',)):
     -------
     A copy of cd with only the allowed keys.
     """
-    return {k: v for k, v in cd.items() if
+    return {k: v for k, v in list(cd.items()) if
             (exclude_prefix and not k.startswith(exclude_prefix)) and
             (exclude_postfix and not k.endswith(exclude_postfix)) and
             k not in set(excludes)}
@@ -680,7 +680,7 @@ def decorate_some(name='DecorateSome', **decorators):
     def new_decorate(mcs, name, bases=None, d=None):
         # Use a closure to keep metaclass parameters
         # Alternative: add a "decorators" member to the metaclass "mcs" dictionary
-        for attr, attr_decorators in decorators.items():
+        for attr, attr_decorators in list(decorators.items()):
             if attr in d:
                 if not is_iterable(attr_decorators):
                     attr_decorators = [attr_decorators]

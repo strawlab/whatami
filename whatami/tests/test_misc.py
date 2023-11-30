@@ -3,7 +3,7 @@
 # Authors: Santi Villalba <sdvillal@gmail.com>
 # Licence: BSD 3 clause
 
-from __future__ import absolute_import
+
 
 from threading import Thread
 
@@ -26,7 +26,7 @@ def test_is_iterable():
     assert is_iterable([]) is True
     assert is_iterable((1, 2, 3)) is True
     assert is_iterable(()) is True
-    assert is_iterable(range(19)) is True
+    assert is_iterable(list(range(19))) is True
     assert is_iterable('abc') is True
     assert is_iterable(None) is False
     assert is_iterable(2) is False
@@ -142,7 +142,7 @@ def test_lazy_imports():
 
     with pytest.raises(ImportError) as excinfo:
         failed_import = maybe_import('cool', 'conda', '123invalid', '456wrong')
-        print(failed_import.whatever)
+        print((failed_import.whatever))
     assert 'Trying to access whatever from module cool, but the library fails to import.' in str(excinfo.value)
     expectation = 'import 123invalid: No module named 123invalid' if not PY3 else \
         'import 123invalid: No module named \'123invalid\''
@@ -151,7 +151,7 @@ def test_lazy_imports():
 
     with pytest.raises(ImportError) as excinfo:
         failed_import = maybe_import('cool', 'sudo apt-get cool', '123invalid', '456wrong')
-        print(failed_import.whatever)
+        print((failed_import.whatever))
     assert 'Trying to access whatever from module cool, but the library fails to import.' in str(excinfo.value)
     assert 'Maybe install it like "sudo apt-get cool"?' in str(excinfo.value)
 
@@ -160,7 +160,7 @@ def test_init_argspec():
     args, _, _, defaults, required = init_argspec(Thread)
     assert not required
     assert 'target' in args
-    assert dict(zip(args, defaults))['target'] is None
+    assert dict(list(zip(args, defaults)))['target'] is None
 
     _, _, _, _, required = init_argspec(object)
     assert not required

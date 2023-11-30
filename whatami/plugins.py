@@ -3,7 +3,7 @@
 # Authors: Santi Villalba <sdvillal@gmail.com>
 # Licence: BSD 3 clause
 
-from __future__ import print_function, absolute_import
+
 from future.utils import string_types, PY2
 
 import inspect
@@ -50,7 +50,7 @@ def builtin_plugin(v):
 
 def numeric_type_plugin(v):
     """Numeric types."""
-    types = (int, float, complex) if not PY2 else (int, long, float, complex)
+    types = (int, float, complex) if not PY2 else (int, int, float, complex)
     if any(v is t for t in types):  # N.B. do not do v in types, as it will fail with numpy arrays
         return '%s()' % v.__name__
 
@@ -72,7 +72,7 @@ def dict_plugin(v):
             return what.id()
         kvs = ['%s:%s' % (WhatamiPluginManager.build_string(dict_k),
                           WhatamiPluginManager.build_string(dict_v))
-               for dict_k, dict_v in v.items()]
+               for dict_k, dict_v in list(v.items())]
         id_string = '{%s}' % ','.join(sorted(kvs))
         if type(v) == dict:
             return id_string
@@ -161,7 +161,7 @@ def function_plugin(v):
         args, _, _, defaults = getargspec(v)
         defaults = [] if not defaults else defaults
         args = [] if not args else args
-        params_with_defaults = dict(zip(args[-len(defaults):], defaults))
+        params_with_defaults = dict(list(zip(args[-len(defaults):], defaults)))
         name = v.__name__ if v.__name__ != '<lambda>' else 'lambda'
         what = What(name, params_with_defaults)
         return what.id()
