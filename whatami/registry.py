@@ -11,7 +11,8 @@ from copy import copy
 from future.utils import string_types, with_metaclass
 
 from functools import partial
-from collections import OrderedDict, Hashable
+from collections import OrderedDict
+from collections.abc import Hashable
 
 from whatami import what2id, is_iterable, decorate_some, ensure_has_positional_args
 from whatami.plugins import pd, toolz
