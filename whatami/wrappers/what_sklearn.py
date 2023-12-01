@@ -50,7 +50,7 @@ import inspect
 import warnings
 import logging
 from collections import OrderedDict
-from distutils.version import StrictVersion
+import packaging.version
 
 from sklearn.base import BaseEstimator
 
@@ -564,11 +564,11 @@ def _declare_id_nonid_attributes():
     """Checks scikit version and applies the best matching wrapping function."""
 
     import sklearn
-    sklearn_version = StrictVersion(sklearn.__version__)
+    sklearn_version = packaging.version.parse(sklearn.__version__)
 
     # Versions I have, more or less, manually checked
     supported_versions = sorted((
-        (StrictVersion('1.3.2'), _declare0dot19dot1),
+        (packaging.version.parse('1.3.2'), _declare0dot19dot1),
     ))
 
     # Choose a version, default to the immediately older explicitly supported
