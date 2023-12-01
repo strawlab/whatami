@@ -2,7 +2,8 @@
 """Test id string generation plugins on isolation."""
 from collections import namedtuple, OrderedDict, defaultdict
 
-from future.utils import PY2, PY3
+PY2 = False
+PY3 = True
 from whatami import whatable
 
 from whatami.plugins import (string_plugin, rng_plugin, has_numpy,

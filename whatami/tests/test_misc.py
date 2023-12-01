@@ -7,7 +7,7 @@
 
 from threading import Thread
 
-from future.utils import PY3
+PY3 = True
 from datetime import datetime
 import inspect
 from time import strptime, mktime

@@ -72,7 +72,7 @@ from copy import deepcopy
 from functools import partial, update_wrapper, WRAPPER_ASSIGNMENTS
 import types
 
-from future.utils import PY3
+PY3 = True
 
 from .misc import callable2call, is_iterable, config_dict_for_object, extract_decorated_function_from_closure, trim_dict
 

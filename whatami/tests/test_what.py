@@ -6,7 +6,7 @@
 
 import hashlib
 
-from future.utils import PY3
+PY3 = True
 
 from ..what import What
 from ..whatutils import id2what, what2id

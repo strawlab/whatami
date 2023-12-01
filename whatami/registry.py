@@ -8,7 +8,8 @@
 
 from copy import copy
 
-from future.utils import string_types, with_metaclass
+from future.utils import with_metaclass
+string_types = (str,)
 
 from functools import partial
 from collections import OrderedDict

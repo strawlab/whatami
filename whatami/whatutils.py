@@ -5,9 +5,6 @@
 # Licence: BSD 3 clause
 
 
-# noinspection PyProtectedMember
-from future.utils import string_types
-
 import inspect
 from itertools import chain
 
@@ -42,7 +39,7 @@ def whatamize_object(clazz_or_fqn, what_func, fail_on_import_error=True, force=F
 
     """
     try:
-        if isinstance(clazz_or_fqn, string_types):
+        if isinstance(clazz_or_fqn, str):
             module, _, clazz = clazz_or_fqn.rpartition('.')
             clazz = getattr(maybe_import(module), clazz)
         else:
@@ -67,7 +64,7 @@ def what2id(obj):
     """
     if obj is None:
         return None
-    if isinstance(obj, string_types):
+    if isinstance(obj, str):
         return obj
     try:
         return obj.what().id()

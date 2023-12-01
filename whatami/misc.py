@@ -5,8 +5,8 @@
 # Licence: BSD 3 clause
 
 
-# noinspection PyProtectedMember
-from future.utils import PY3, string_types
+PY3 = True
+string_types = (str,)
 
 from pkgutil import walk_packages
 

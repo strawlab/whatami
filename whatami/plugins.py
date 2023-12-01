@@ -4,7 +4,8 @@
 # Licence: BSD 3 clause
 
 
-from future.utils import string_types, PY2
+PY2 = False
+string_types = (str,)
 
 import inspect
 from collections import OrderedDict
