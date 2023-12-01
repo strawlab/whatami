@@ -63,22 +63,22 @@ def array(request):
     arrays = {
         # base array
         'a1': (np.array([[1, 0, 1], [0, 1, 0], [1, 0, 1]]),
-               '6f02029610d8eb28c804bb45e7f9d143', 'cdbda364c2078ca23ec48efc135a4056'),
+               'a5546f2f3e43d4705e78b28a285cc10e'),
         # hash changes with dtype
-        'a2': (np.array([[1, 0, 1], [0, 1, 0], [1, 0, 1]], dtype=np.bool),
-               '84cb98527346d5fcf7883a795b8967e5', '9407c2fc16a7c36b3aeb965ce9ce01ef'),
-        'a3': (np.array([[1, 0, 1], [0, 1, 0], [1, 0, 1]], dtype=np.float),
-               '94a704b9d7de461139fc94798cca01c5', '2e796b1399e90dac8c8204e0b4ad13dc'),
+        'a2': (np.array([[1, 0, 1], [0, 1, 0], [1, 0, 1]], dtype=bool),
+               'aa2a05f2ab0bd6d00ed826a84d394fae'),
+        'a3': (np.array([[1, 0, 1], [0, 1, 0], [1, 0, 1]], dtype=np.float64),
+               '791245b6f3713a5f4893ab60fc4217c9'),
         # hash changes with shape and ndim
         'a4': (np.array([[1, 0, 1], [0, 1, 0], [1, 0, 1]]).reshape((1, 9)),
-               '2d68497a547c11f6ccfb638eac05ce50', '575c139d5e96b6ce189f55f491239006'),
+               '51a4ecedef1ece8750a005c737bfd9da'),
         'a5': (np.array([[1, 0, 1], [0, 1, 0], [1, 0, 1]], ndmin=3),
-               'f8912d3c3bad0a81511f30426e9a69b7', '42b6871f9e881b5005e0eef1d96a7fd3'),
+               'f38021d73c5e2d076cdb88ec746c4d2a'),
         # hash changes with stride/order/contiguity
         'a6': (np.array([[1, 0, 1], [0, 1, 0], [1, 0, 1]], order='F'),
-               'ed2bf87a6f657114a742b23ce1d35d8a', '488d258f3e1cbc58d51f1ed0303be2e5'),
+               'bdae6988a580b41846a7683d2e008408'),
         'a7': (np.array([[1, 0, 1], [0, 1, 0], [1, 0, 1]]).T,
-               'ed2bf87a6f657114a742b23ce1d35d8a', '488d258f3e1cbc58d51f1ed0303be2e5'),
+               'bdae6988a580b41846a7683d2e008408'),
     }
     return arrays[request.param]
 

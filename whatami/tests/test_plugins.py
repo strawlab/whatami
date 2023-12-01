@@ -87,20 +87,17 @@ def test_rng_plugin():
     import numpy as np
     # The state will depend on the seed...
     rng = np.random.RandomState(0)
-    expected_hash = 'c86ba9d751868840814285c8d894cf6e' if PY2 else '31a41b7cfda3c6075752046a36d43230'
-    expected = "RandomState(state=tuple(seq=('MT19937',ndarray(hash='%s'),624,0,0.0)))" % expected_hash
+    expected = "RandomState(state=dict(seq={'bit_generator':'MT19937','gauss':0.0,'has_gauss':0,'state':{'key':ndarray(hash='46423e261e128a1a0069fe54113b2ba2'),'pos':624}}))"
     assert expected == rng_plugin(rng)
     # ...and on where are we on the pseudo-random sampling chain
     rng.uniform(size=1)
-    expected_hash = 'e1f5b00dbefe7c9ea168ded4bbcd2ba8' if PY2 else '662c48a1ec3131127823ec872403fc3c'
-    expected = "RandomState(state=tuple(seq=('MT19937',ndarray(hash='%s'),2,0,0.0)))" % expected_hash
+    expected = "RandomState(state=dict(seq={'bit_generator':'MT19937','gauss':0.0,'has_gauss':0,'state':{'key':ndarray(hash='859ea260a4e83181802333a777b8bb95'),'pos':2}}))"
     assert expected == rng_plugin(rng)
 
 
 def test_numpy_plugin(array):
 
-    array, array_hash2, array_hash3 = array
-    array_hash = array_hash2 if not PY3 else array_hash3
+    array, array_hash = array
 
     # joblib hash has changed?
     from whatami.plugins import hasher
