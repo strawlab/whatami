@@ -24,7 +24,7 @@ def test_whatid2columns(df_with_whatid):
     """
     # Use pandas for testing
     from ..plugins import pd
-    assert_series_equal = partial(pd.util.testing.assert_series_equal, check_names=False)
+    assert_series_equal = partial(pd.testing.assert_series_equal, check_names=False)
     whatid_column = 'whatid'
     expected_value_columns = sorted(set(df_with_whatid.columns) - {whatid_column})
     toplevel_values = [c for c in expected_value_columns if '_' not in c]

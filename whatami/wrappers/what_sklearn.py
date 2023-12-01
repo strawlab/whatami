@@ -568,9 +568,7 @@ def _declare_id_nonid_attributes():
 
     # Versions I have, more or less, manually checked
     supported_versions = sorted((
-        (StrictVersion('0.15.1'), _declare0dot15dot1),
-        (StrictVersion('0.19.1'), _declare0dot19dot1),
-        (StrictVersion('0.19.2'), _declare0dot19dot1),
+        (StrictVersion('1.3.2'), _declare0dot19dot1),
     ))
 
     # Choose a version, default to the immediately older explicitly supported

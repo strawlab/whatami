@@ -1,7 +1,7 @@
 # coding=utf-8
 from ..what import whatable, whatareyou
 from ..plugins import has_numpy, has_pandas, pd, np
-from distutils.version import LooseVersion
+import packaging.version
 import pytest
 
 
@@ -89,8 +89,8 @@ def pandas_skip(test):  # pragma: no cover
     if not has_pandas():
         return pytest.param(test, marks=pytest.mark.skip(reason='the pandas plugin requires pandas'))
     # Check library versions
-    minor = LooseVersion(pd.__version__).version[1]
-    if minor not in (16, 17, 18, 20, 21, 22, 23):
+    pandas_semver = "2.0"
+    if packaging.version.parse(pd.__version__) < packaging.version.parse(pandas_semver):
         reason = 'these tests do not support pandas version %s' % pd.__version__
         return pytest.param(test, marks=pytest.mark.skip(reason=reason))
     return test
@@ -102,67 +102,20 @@ def df(request):
     """Hardcodes hashes, so we can detect hashing changes in joblib and pandas serialisation across versions."""
     # Unfortunate, that pandas hashes are unstable across pandas versions and python 2/3 should be documented
     adjacency = np.array([[1, 0, 1], [0, 1, 0], [1, 0, 1]])
-    dfs = {}  # fixture_name -> (dataframe, py2_expected_hash, py3_expected_hash)
-    if LooseVersion('0.16') <= LooseVersion(pd.__version__) < LooseVersion('0.17'):  # pragma: no cover
-        dfs = {
-            'df1': (pd.DataFrame(data=adjacency, columns=['x', 'y', 'z']),
-                    '06b4dd3696595163ee418eb398f12ad4', '86b79ea3b24cce05ec8d027e8e946f41'),
-            'df2': (pd.DataFrame(data=adjacency, columns=['xx', 'yy', 'zz']),
-                    '65f768a5c45764c2be969fcf067217a8', '4d00fbdb39c6b996412d27c34b2377f2'),
-            'df3': (pd.DataFrame(data=adjacency.T, columns=['x', 'y', 'z']),
-                    'd657fe3c5db78513015744fd91ef45a9', '238dd9d366d5c247bce4bceeb72513c2'),
-            'df4': (pd.DataFrame(data=adjacency, columns=['x', 'y', 'z'], index=['r1', 'r2', 'r3']),
-                    '5958e91e3f3d516cd347fadb08eb8d34', 'c5b977fc361c3e7c418841b646b41a7b'),
-            's1': (pd.Series(data=adjacency.ravel()),
-                   'fb803a8ea8f4defdac3c0c5c19a4d618', 'c24006ddea03888c8e0311a6a163e918'),
-            's2': (pd.Series(data=adjacency.ravel(), index=list(range(len(adjacency.ravel()))))[::-1],
-                   'f8282784d8ae6f26dd6555a17ecf374a', '117b9a9d74d990b22a303cb5c4e34064'),
-        }
-    elif LooseVersion('0.17') <= LooseVersion(pd.__version__) < LooseVersion('0.18'):  # pragma: no cover
-        dfs = {
-            'df1': (pd.DataFrame(data=adjacency, columns=['x', 'y', 'z']),
-                    'cfbd33cb950a963f1f69c18040393c57', '213370e5881a6677a16a36ef928e7a2d'),
-            'df2': (pd.DataFrame(data=adjacency, columns=['xx', 'yy', 'zz']),
-                    '4deccdb1a2e05b76f66d75747bd59d87', '69b9b1d16e798228ea7ae4d1a66644b4'),
-            'df3': (pd.DataFrame(data=adjacency.T, columns=['x', 'y', 'z']),
-                    'acdc2d8ab2cf74b7cb9228f7c821543b', '0147d912cb628a67bd4a7755534989cd'),
-            'df4': (pd.DataFrame(data=adjacency, columns=['x', 'y', 'z'], index=['r1', 'r2', 'r3']),
-                    'bb369093d962c1102737f556448e0a4c', '06816343ea060281009194d31970e1d8'),
-            's1': (pd.Series(data=adjacency.ravel()),
-                   'f7aa3fa9cb0e83c0bc4bc8c6946db39f', '282e928e7af9a28e4a4a487d8b3aace2'),
-            's2': (pd.Series(data=adjacency.ravel(), index=list(range(len(adjacency.ravel()))))[::-1],
-                   '3e906bba8938fc47b10babf0abcd9c7c', '015f8cf4282495f03bdd185901fe67a0'),
-        }
-    elif LooseVersion('0.18') <= LooseVersion(pd.__version__) < LooseVersion('0.19'):  # pragma: no cover
-        dfs = {
-            'df1': (pd.DataFrame(data=adjacency, columns=['x', 'y', 'z']),
-                    'b42c35390383ea16e6cbdd386a650352', '7133178ca4922a7ed8b17c8cc9b7c6c2'),
-            'df2': (pd.DataFrame(data=adjacency, columns=['xx', 'yy', 'zz']),
-                    'c7634ccb336070327fcb72237010a132', '20759a616b21a050c7edfabb7f8d3197'),
-            'df3': (pd.DataFrame(data=adjacency.T, columns=['x', 'y', 'z']),
-                    '111429cc6780467d5f1360ac080413b8', '74680aa0ba883e3df7f370708641df3b'),
-            'df4': (pd.DataFrame(data=adjacency, columns=['x', 'y', 'z'], index=['r1', 'r2', 'r3']),
-                    '771739ab3741e83d4058092c3e7048fa', '41c3285396a6a23eecf5170bd4d05089'),
-            's1': (pd.Series(data=adjacency.ravel()),
-                   '2b0e7e414f6cbf83df534c715f307b25', '4273d3625a0b2f4374aef2405e144d81'),
-            's2': (pd.Series(data=adjacency.ravel(), index=list(range(len(adjacency.ravel()))))[::-1],
-                   '43dbf2ae18abdf54921ea1a49e8d847b', '50052bba6794aceab461a1f2a1baa785'),
-        }
-    elif LooseVersion('0.20') <= LooseVersion(pd.__version__) < LooseVersion('0.24'):  # pragma: no cover
-        dfs = {
-            'df1': (pd.DataFrame(data=adjacency, columns=['x', 'y', 'z']),
-                    '5b0f297230bccaab968ca2464d7a10f0', '208ff258bdc0ec2395f3d15f56cd7eb4'),
-            'df2': (pd.DataFrame(data=adjacency, columns=['xx', 'yy', 'zz']),
-                    '4973d1cb908113c2a514d407766dfe7b', '713acbeafcf20a795e01d7e54c19bd1e'),
-            'df3': (pd.DataFrame(data=adjacency.T, columns=['x', 'y', 'z']),
-                    '7114b8f27b1a084f47dc2d491a58ea7c', 'd46e0887d9c850c46629043762f3022e'),
-            'df4': (pd.DataFrame(data=adjacency, columns=['x', 'y', 'z'], index=['r1', 'r2', 'r3']),
-                    '10f1e6b7451beac5a3c625e59a078557', '576ca86bd5b26b6f996ef66df46d47c8'),
-            's1': (pd.Series(data=adjacency.ravel()),
-                   '1ef045028b9f4dd882239c492e684a33', '35ea37daa7f7929d7c5ee00c403024c1'),
-            's2': (pd.Series(data=adjacency.ravel(), index=list(range(len(adjacency.ravel()))))[::-1],
-                   '645ec1368429a0f2a5385aa0aa2daff6', '226593b34b017228ebbf97faa16e3856'),
-        }
+    dfs = {
+        'df1': (pd.DataFrame(data=adjacency, columns=['x', 'y', 'z']),
+                '9c3bac426e867ee21b618145c564eba5'),
+        'df2': (pd.DataFrame(data=adjacency, columns=['xx', 'yy', 'zz']),
+                '417d435fb0e677a8eb13b41498440505'),
+        'df3': (pd.DataFrame(data=adjacency.T, columns=['x', 'y', 'z']),
+                'ff63ffde45da427c1d1588657ad70267'),
+        'df4': (pd.DataFrame(data=adjacency, columns=['x', 'y', 'z'], index=['r1', 'r2', 'r3']),
+                '8750de643c33fb1e049444b1d4362eb0'),
+        's1': (pd.Series(data=adjacency.ravel()),
+                'dfba7482fa680509b494c7da736c969c'),
+        's2': (pd.Series(data=adjacency.ravel(), index=list(range(len(adjacency.ravel()))))[::-1],
+                'ad4c81625f39a8ba183bf5cccc635312'),
+    }
     return dfs[request.param]
 
 

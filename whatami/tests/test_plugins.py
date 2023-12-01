@@ -112,8 +112,7 @@ def test_numpy_plugin(array):
 
 def test_pandas_plugin(df):
 
-    df, df_hash2, df_hash3 = df
-    df_hash = df_hash2 if not PY3 else df_hash3
+    df, df_hash = df
     name = df.__class__.__name__
 
     # check for changes in joblib hashing and pandas pickling across versions
