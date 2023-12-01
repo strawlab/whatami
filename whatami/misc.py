@@ -356,7 +356,7 @@ def _dict(obj):
 
     Examples
     --------
-    >>> from future.moves.collections import UserDict
+    >>> from collections import UserDict
     >>> _dict(UserDict())
     {'data': {}}
     >>> class NoSlots(object):
@@ -385,7 +385,7 @@ def _slotsdict(obj):
 
     Examples
     --------
-    >>> from future.moves.collections import UserDict
+    >>> from collections import UserDict
     >>> _slotsdict(UserDict())
     {}
     >>> class Slots(object):
@@ -591,6 +591,44 @@ def is_iterable(v):
     return True
 
 
+# taken from python-future/src/future/utils/__init__.py
+def with_metaclass(meta, *bases):
+    """
+    Function from jinja2/_compat.py. License: BSD.
+
+    Use it like this::
+
+        class BaseForm(object):
+            pass
+
+        class FormType(type):
+            pass
+
+        class Form(with_metaclass(FormType, BaseForm)):
+            pass
+
+    This requires a bit of explanation: the basic idea is to make a
+    dummy metaclass for one level of class instantiation that replaces
+    itself with the actual metaclass.  Because of internal type checks
+    we also need to make sure that we downgrade the custom metaclass
+    for one level to something closer to type (that's why __call__ and
+    __init__ comes back from type etc.).
+
+    This has the advantage over six.with_metaclass of not introducing
+    dummy classes into the final MRO.
+    """
+
+    class metaclass(meta):
+        __call__ = type.__call__
+        __init__ = type.__init__
+
+        def __new__(cls, name, this_bases, d):
+            if this_bases is None:
+                return type.__new__(cls, name, (), d)
+            return meta(name, bases, d)
+
+    return metaclass("temporary_class", None, {})
+
 # --- Metaprogramming (aka black magic) tools
 
 def decorate_some(name='DecorateSome', **decorators):
@@ -627,7 +665,7 @@ def decorate_some(name='DecorateSome', **decorators):
     Examples
     --------
     Let's create some logging decorators...
-    >>> from future.utils import with_metaclass
+    >>> from whatami.misc import with_metaclass
     >>> from functools import wraps
     >>> def decorator1(f):
     ...     @wraps(f)

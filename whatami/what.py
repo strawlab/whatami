@@ -448,7 +448,7 @@ def whatable(obj=None,
     ...     print(x, name)
     >>> print(thunk.what().id())
     thunk(name='hi')
-    >>> from future.moves.collections import UserDict
+    >>> from collections import UserDict
     >>> ud = whatable(UserDict())
     >>> is_whatable(ud)
     True

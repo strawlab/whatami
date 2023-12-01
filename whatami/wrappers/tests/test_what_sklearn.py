@@ -4,7 +4,6 @@
 # Licence: BSD 3 clause
 
 
-from future.builtins import str
 from sklearn.cluster import KMeans
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.pipeline import Pipeline

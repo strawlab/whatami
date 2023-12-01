@@ -23,12 +23,7 @@ classifiers = [
     'Programming Language :: Python :: 3.7',
 ]
 
-dependencies = [
-    "packaging>=23.2",
-    "arpeggio>=1.5",
-    "future>=0.15.2",
-    "toolz",
-]
+dependencies = ["packaging>=23.2", "arpeggio>=1.5", "toolz"]
 
 [project.optional-dependencies]
 numpy = ["numpy"]

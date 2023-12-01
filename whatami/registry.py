@@ -8,7 +8,6 @@
 
 from copy import copy
 
-from future.utils import with_metaclass
 string_types = (str,)
 
 from functools import partial
@@ -17,6 +16,7 @@ from collections.abc import Hashable
 
 from whatami import what2id, is_iterable, decorate_some, ensure_has_positional_args
 from whatami.plugins import pd, toolz
+from whatami.misc import with_metaclass
 
 
 class WhatamiRegistry(object):
