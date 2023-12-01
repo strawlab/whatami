@@ -26,7 +26,7 @@ classifiers = [
 dependencies = ["packaging>=23.2", "arpeggio>=1.5", "toolz"]
 
 [project.optional-dependencies]
-numpy = ["numpy"]
+numpy = ["numpy>=1.26"]
 pandas = ["pandas>=2.0"]
 sklearn = ["scikit-learn>=1.3.2"]
 docs = ["Sphinx"]

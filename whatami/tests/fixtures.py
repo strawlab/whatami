@@ -63,22 +63,22 @@ def array(request):
     arrays = {
         # base array
         'a1': (np.array([[1, 0, 1], [0, 1, 0], [1, 0, 1]]),
-               'a5546f2f3e43d4705e78b28a285cc10e'),
+               'e8d99d65a1a6ce33e38aa11cfb1846df'),
         # hash changes with dtype
         'a2': (np.array([[1, 0, 1], [0, 1, 0], [1, 0, 1]], dtype=bool),
-               'aa2a05f2ab0bd6d00ed826a84d394fae'),
+               'f974dd4dfab18db08d20a024ca81c8d1'),
         'a3': (np.array([[1, 0, 1], [0, 1, 0], [1, 0, 1]], dtype=np.float64),
-               '791245b6f3713a5f4893ab60fc4217c9'),
+               '282fb5c2d22f669e2c2e52432052180f'),
         # hash changes with shape and ndim
         'a4': (np.array([[1, 0, 1], [0, 1, 0], [1, 0, 1]]).reshape((1, 9)),
-               '51a4ecedef1ece8750a005c737bfd9da'),
+               'c7a90b6a67ce5564620fddfb68dcde67'),
         'a5': (np.array([[1, 0, 1], [0, 1, 0], [1, 0, 1]], ndmin=3),
-               'f38021d73c5e2d076cdb88ec746c4d2a'),
+               'db9ff8ce4722880d680c3d7fecb14d3b'),
         # hash changes with stride/order/contiguity
         'a6': (np.array([[1, 0, 1], [0, 1, 0], [1, 0, 1]], order='F'),
-               'bdae6988a580b41846a7683d2e008408'),
+               '80280f448c29b6cff207de51969d3349'),
         'a7': (np.array([[1, 0, 1], [0, 1, 0], [1, 0, 1]]).T,
-               'bdae6988a580b41846a7683d2e008408'),
+               '80280f448c29b6cff207de51969d3349'),
     }
     return arrays[request.param]
 
@@ -104,17 +104,17 @@ def df(request):
     adjacency = np.array([[1, 0, 1], [0, 1, 0], [1, 0, 1]])
     dfs = {
         'df1': (pd.DataFrame(data=adjacency, columns=['x', 'y', 'z']),
-                '9c3bac426e867ee21b618145c564eba5'),
+                '335e1fa4a6727a05293aca997b5cf56b'),
         'df2': (pd.DataFrame(data=adjacency, columns=['xx', 'yy', 'zz']),
-                '417d435fb0e677a8eb13b41498440505'),
+                '59e6d7b6b710f53f2ffe721edcfd5e36'),
         'df3': (pd.DataFrame(data=adjacency.T, columns=['x', 'y', 'z']),
-                'ff63ffde45da427c1d1588657ad70267'),
+                'e9c8e9154d3f26406b8ac6ba3b3ef8c5'),
         'df4': (pd.DataFrame(data=adjacency, columns=['x', 'y', 'z'], index=['r1', 'r2', 'r3']),
-                '8750de643c33fb1e049444b1d4362eb0'),
+                '431a77b3c5a1d64e3eac911c797393bb'),
         's1': (pd.Series(data=adjacency.ravel()),
-                'dfba7482fa680509b494c7da736c969c'),
+                '2c6be41f05a1292066053e95d700b3f6'),
         's2': (pd.Series(data=adjacency.ravel(), index=list(range(len(adjacency.ravel()))))[::-1],
-                'ad4c81625f39a8ba183bf5cccc635312'),
+                'e8c7cb5c5f7d4469a5d4b68d8158bd33'),
     }
     return dfs[request.param]
 

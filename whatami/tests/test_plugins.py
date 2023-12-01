@@ -88,11 +88,11 @@ def test_rng_plugin():
     import numpy as np
     # The state will depend on the seed...
     rng = np.random.RandomState(0)
-    expected = "RandomState(state=dict(seq={'bit_generator':'MT19937','gauss':0.0,'has_gauss':0,'state':{'key':ndarray(hash='46423e261e128a1a0069fe54113b2ba2'),'pos':624}}))"
+    expected = "RandomState(state=dict(seq={'bit_generator':'MT19937','gauss':0.0,'has_gauss':0,'state':{'key':ndarray(hash='916fbfe259c3224f6d86f88983be2f3c'),'pos':624}}))"
     assert expected == rng_plugin(rng)
     # ...and on where are we on the pseudo-random sampling chain
     rng.uniform(size=1)
-    expected = "RandomState(state=dict(seq={'bit_generator':'MT19937','gauss':0.0,'has_gauss':0,'state':{'key':ndarray(hash='859ea260a4e83181802333a777b8bb95'),'pos':2}}))"
+    expected = "RandomState(state=dict(seq={'bit_generator':'MT19937','gauss':0.0,'has_gauss':0,'state':{'key':ndarray(hash='cca1ffb081e4968bcca2de8dc9b7f5f8'),'pos':2}}))"
     assert expected == rng_plugin(rng)
 
 
