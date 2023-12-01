@@ -234,12 +234,12 @@ def _declare0dot19dot1():  # pragma: no cover
     _a(SpectralBiclustering, None, ('n_jobs',))
 
     # Covariance estimators
-    from sklearn.covariance import (EmpiricalCovariance, EllipticEnvelope, GraphLasso, GraphLassoCV,
+    from sklearn.covariance import (EmpiricalCovariance, EllipticEnvelope, GraphicalLasso, GraphicalLassoCV,
                                     LedoitWolf, MinCovDet, OAS, ShrunkCovariance)
     _a(EmpiricalCovariance)
     _a(EllipticEnvelope, None, ('store_precision',))
-    _a(GraphLasso, None, ('verbose',))
-    _a(GraphLassoCV, None, ('n_jobs', 'verbose',))
+    _a(GraphicalLasso, None, ('verbose',))
+    _a(GraphicalLassoCV, None, ('n_jobs', 'verbose',))
     _a(LedoitWolf)
     _a(MinCovDet)
     _a(OAS)
@@ -507,15 +507,17 @@ def _declare0dot19dot1():  # pragma: no cover
     _a(FeatureUnion, None, ('n_jobs',))
     _a(Pipeline, None, ('memory',))
 
+    from sklearn.impute import SimpleImputer
+    _a(SimpleImputer, None, ('copy', 'verbose'))
+
     # Preprocessing and Normalization
-    from sklearn.preprocessing import (Binarizer, FunctionTransformer, Imputer,
+    from sklearn.preprocessing import (Binarizer, FunctionTransformer,
                                        KernelCenterer, LabelBinarizer, LabelEncoder,
                                        MultiLabelBinarizer, MaxAbsScaler, MinMaxScaler,
                                        Normalizer, OneHotEncoder, PolynomialFeatures,
                                        QuantileTransformer, RobustScaler, StandardScaler)
     _a(Binarizer, None, ('copy',))
     _a(FunctionTransformer)
-    _a(Imputer, None, ('copy', 'verbose'))
     _a(KernelCenterer)
     _a(LabelBinarizer)
     _a(LabelEncoder)
@@ -644,7 +646,7 @@ def _check_all_monkeypatched():
     whatamize_sklearn(check=False)
 
     # Trick to force python to populate part of the BaseEstimator hierarchy
-    from sklearn.ensemble.forest import RandomForestClassifier
+    from sklearn.ensemble import RandomForestClassifier
     assert BaseEstimator.__subclasscheck__(RandomForestClassifier)
     from sklearn.cluster import KMeans
     assert BaseEstimator.__subclasscheck__(KMeans)
